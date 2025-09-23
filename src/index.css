@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  /* Cool dark base */
+  --bg-primary: #0a0f14;
+  --bg-secondary: #0f1720;
+  --bg-card: #0b141c;
+  --bg-card-hover: #0f1b25;
+
+  /* Cyber blue/teal palette */
+  --accent-primary: #22d3ee;   /* cyan-400 */
+  --accent-secondary: #38bdf8; /* sky-400 */
+  --accent-tertiary: #06b6d4;  /* cyan-500 */
+  --accent-warm: #60a5fa;      /* blue-400 */
+  --accent-cream: #e0f2fe;     /* sky-100 for subtle highlights */
+
+  /* Text colors */
+  --text-primary: #e6f1ff;
+  --text-secondary: #94a3b8;   /* slate-400 */
+  --text-muted: #5b6b7a;
+  --text-accent: #7dd3fc;      /* sky-300 */
+}
+
+/* Reset et base styles */
+/* Ne pas remettre les paddings à 0 globalement pour ne pas casser les espacements internes (cartes, contoured, etc.) */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-tertiary) 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-tertiary) 100%);
+}
+
+/* Sélection de texte */
+::selection {
+  background: rgba(56, 189, 248, 0.25);
+  color: var(--text-primary);
+}
+
+/* Thème sombre élégant */
+.dark {
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --card: var(--bg-card);
+  --card-foreground: var(--text-primary);
+  --primary: var(--accent-primary);
+  --primary-foreground: var(--bg-primary);
+  --secondary: var(--bg-secondary);
+  --secondary-foreground: var(--text-secondary);
+  --accent: var(--accent-secondary);
+  --accent-foreground: var(--text-primary);
+  --border: rgba(125, 211, 252, 0.25);
+  --input: var(--bg-card);
+  --ring: var(--accent-secondary);
+}
