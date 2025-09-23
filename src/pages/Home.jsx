@@ -178,7 +178,7 @@ export default function Home() {
         <div className="page-content">
           <div className="text-center mb-24">
             <FadeInUp><br /><br /><br /><br /><br /><br />
-              <div className="text-4xl sm:text-5xl font-bold leading-tight">Youssef Ammari</div>
+              <div className="text-4xl sm:text-5xl font-bold leading-tight">Ammari Youssef</div>
               <div className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
                 <TypewriterText>Expert en</TypewriterText>
                 <motion.span className="block text-sky-400 mt-1" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
