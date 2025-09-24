@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FadeInUp, StaggerContainer, FloatingCard, TypewriterText } from '../components/Animations';
 import Modal from '../components/Modal';
+import { SiGo, SiPython, SiJavascript, SiReact, SiLaravel, SiHtml5, SiCss3, SiGit, SiGithub, SiJenkins, SiCisco, SiBurpsuite, SiMetasploit } from "react-icons/si";
+import { FaNetworkWired, FaShieldAlt } from "react-icons/fa";
 
 async function fetchReadmeSummary(user, repo) {
   try {
@@ -133,44 +135,148 @@ export default function Home() {
   const filteredExperiences = sortedExperiences.filter(e => expFilter === 'Tous' ? true : e.category === expFilter);
 
   const skills = [
-    'Golang', 'Python', 'JavaScript', 'React', 'Laravel', 'HTML/CSS', 'Bash', 'Git/GitHub',
-    'Jenkins', 'GNS3', 'Cisco Packet Tracer', 'VLAN/Routing/Firewall', 'DNS/DHCP', 'Nmap', 'Burp Suite', 'Metasploit'
+    { name: 'Golang', icon: <SiGo /> },
+    { name: 'Python', icon: <SiPython /> },
+    { name: 'JavaScript', icon: <SiJavascript /> },
+    { name: 'React', icon: <SiReact /> },
+    { name: 'Laravel', icon: <SiLaravel /> },
+    { name: 'HTML/CSS', icon: <><SiHtml5 /> <SiCss3 /></> },
+    { name: 'Git/GitHub', icon: <><SiGit /> <SiGithub /></> },
+    { name: 'Jenkins', icon: <SiJenkins /> },
+    { name: 'Cisco Packet Tracer', icon: <SiCisco /> },
+    { name: 'VLAN/Routing/Firewall', icon: <FaNetworkWired /> },
+    { name: 'DNS/DHCP', icon: <FaShieldAlt /> },
+    { name: 'Burp Suite', icon: <SiBurpsuite /> },
+    { name: 'Metasploit', icon: <SiMetasploit /> }
   ];
 
-  const [githubProjects, setGithubProjects] = useState([]);
-  const [loadingProjects, setLoadingProjects] = useState(true);
-  const [projError, setProjError] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        setLoadingProjects(true);
-        setProjError(null);
-        const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`, { headers: { Accept: 'application/vnd.github+json' } });
-        if (!res.ok) throw new Error(`GitHub ${res.status}`);
-        const repos = await res.json();
-        const top = (Array.isArray(repos) ? repos : [])
-          .filter(r => !r.fork && !r.archived && !r.private)
-          .sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0) || new Date(b.pushed_at) - new Date(a.pushed_at))
-          .slice(0, 9);
-        const items = await Promise.all(
-          top.map(async (r) => {
-            const summary = await fetchReadmeSummary(GITHUB_USER, r.name);
-            const description = summary || r.description || 'Projet open‑source sans description.';
-            const topics = Array.isArray(r.topics) && r.topics.length ? r.topics : (r.language ? [r.language] : []);
-            return { id: r.id, title: r.name, description, github: r.html_url, homepage: r.homepage || '', topics };
-          })
-        );
-        if (!cancelled) setGithubProjects(items);
-      } catch {
-        if (!cancelled) setProjError('Impossible de charger les projets GitHub.');
-      } finally {
-        if (!cancelled) setLoadingProjects(false);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, []);
+  // --- Projets GitHub en dur ---
+const githubProjectsData = [
+  {
+    id: 1,
+    title: 'projet_dev',
+    description: 'Projet de développement Python.',
+    github: 'https://github.com/KxroTM/projet_dev',
+    homepage: '',
+    topics: ['Python']
+  },
+  {
+    id: 2,
+    title: 'TetrisGame',
+    description: 'Jeu Tetris en C#.',
+    github: 'https://github.com/KxroTM/TetrisGame',
+    homepage: '',
+    topics: ['C#', 'Game']
+  },
+  {
+    id: 3,
+    title: 'ui_design',
+    description: 'Projet de design d’interface en Go.',
+    github: 'https://github.com/KxroTM/ui_design',
+    homepage: '',
+    topics: ['Go', 'UI']
+  },
+  {
+    id: 4,
+    title: 'Projet-Reseau',
+    description: 'Projet académique réseau.',
+    github: 'https://github.com/KxroTM/Projet-Reseau',
+    homepage: '',
+    topics: ['Réseau']
+  },
+  {
+    id: 5,
+    title: 'ynov-html-deployment',
+    description: 'Déploiement HTML pour Ynov.',
+    github: 'https://github.com/KxroTM/ynov-html-deployment',
+    homepage: '',
+    topics: ['HTML']
+  },
+  {
+    id: 6,
+    title: 'e-commerce-SQL',
+    description: 'Projet e-commerce avec SQL et Go.',
+    github: 'https://github.com/KxroTM/e-commerce-SQL',
+    homepage: '',
+    topics: ['Go', 'SQL', 'E-commerce']
+  },
+  {
+    id: 7,
+    title: 'OFP-discord_MMORPG',
+    description: 'MMORPG Discord en Python.',
+    github: 'https://github.com/KxroTM/OFP-discord_MMORPG',
+    homepage: '',
+    topics: ['Python', 'Discord', 'MMORPG']
+  },
+  {
+    id: 8,
+    title: 'Portfolio',
+    description: 'Portfolio JavaScript.',
+    github: 'https://github.com/KxroTM/Portfolio',
+    homepage: '',
+    topics: ['JavaScript', 'Portfolio']
+  },
+  {
+    id: 9,
+    title: 'TP-Ammari_Youssef',
+    description: 'TP académique en Go.',
+    github: 'https://github.com/KxroTM/TP-Ammari_Youssef',
+    homepage: '',
+    topics: ['Go', 'TP']
+  },
+  {
+    id: 10,
+    title: 'InfraSI',
+    description: 'Projet d’infrastructure SI en CSS.',
+    github: 'https://github.com/KxroTM/InfraSI',
+    homepage: '',
+    topics: ['CSS', 'Infrastructure']
+  },
+  {
+    id: 11,
+    title: 'Groupie-Trackers',
+    description: 'Application Groupie Trackers en Go.',
+    github: 'https://github.com/KxroTM/Groupie-Trackers',
+    homepage: '',
+    topics: ['Go', 'Application']
+  },
+  {
+    id: 12,
+    title: 'HangmanSouls',
+    description: 'Jeu du pendu (Hangman) en HTML.',
+    github: 'https://github.com/KxroTM/HangmanSouls',
+    homepage: '',
+    topics: ['HTML', 'Game', 'Student project']
+  },
+  {
+    id: 13,
+    title: 'Netpbm',
+    description: 'Projet Netpbm en Go.',
+    github: 'https://github.com/KxroTM/Netpbm',
+    homepage: '',
+    topics: ['Go', 'Netpbm']
+  },
+  {
+    id: 14,
+    title: 'Hangman-Ultimate',
+    description: 'Jeu Hangman Ultimate en Go.',
+    github: 'https://github.com/KxroTM/Hangman-Ultimate',
+    homepage: '',
+    topics: ['Go', 'Game', 'Student project']
+  },
+  {
+    id: 15,
+    title: 'T2OTFP-RPG',
+    description: 'Premier projet RPG étudiant en Go.',
+    github: 'https://github.com/KxroTM/T2OTFP-RPG',
+    homepage: '',
+    topics: ['Go', 'RPG', 'Student project']
+  }
+];
+const PROJECTS_PER_PAGE = 9;
+const [currentPage, setCurrentPage] = useState(1);
+const totalPages = Math.ceil(githubProjectsData.length / PROJECTS_PER_PAGE);
+const paginatedProjects = githubProjectsData.slice((currentPage - 1) * PROJECTS_PER_PAGE, currentPage * PROJECTS_PER_PAGE);
 
   return (
     <div>
@@ -218,21 +324,30 @@ export default function Home() {
             <FloatingCard delay={0} className="p-8">
               <h3 className="text-sky-400 text-lg font-semibold mb-3">Qui je suis</h3>
               <p className="text-gray-300 leading-relaxed">
-                Étudiant en cybersécurité et développement basé à Paris (75013), je conçois des solutions sécurisées et fiables.
+                Étudiant en cybersécurité et développement basé à Paris, je conçois des solutions sécurisées et fiables.
                 Compétent en réseaux (VLAN, routage, firewall), développement (Golang, Python, JavaScript/React, Laravel)
                 et pentest (Burp Suite, Nmap, Metasploit). À la recherche d’une alternance, je renforce mes pratiques sur
                 TryHackMe, RootMe et HackTheBox.
               </p>
+              <br />
             </FloatingCard>
             <FloatingCard delay={0.1} className="p-8">
               <h3 className="text-sky-400 text-lg font-semibold mb-3">Compétences clés</h3>
               <div className="flex flex-wrap gap-2">
                 {skills.map((s, i) => (
-                  <motion.span key={s} className="px-3 py-1 bg-sky-400/10 text-sky-300 rounded-full text-sm border border-sky-400/20" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.03 }}>
-                    {s}
+                  <motion.span
+                    key={s.name}
+                    className="px-3 py-1 bg-sky-400/10 text-sky-300 rounded-full text-sm border border-sky-400/20 flex items-center gap-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + i * 0.03 }}
+                  >
+                    <span className="text-lg">{s.icon}</span>
+                    {s.name}
                   </motion.span>
                 ))}
               </div>
+              <br />
             </FloatingCard>
           </StaggerContainer>
         </div>
@@ -290,53 +405,74 @@ export default function Home() {
             <h2 className="section-title">Projets</h2>
             <p className="section-subtitle">Sélection de travaux</p>
           </div>
-          {loadingProjects ? (
-            <p className="text-gray-400">Chargement des projets GitHub…</p>
-          ) : projError ? (
-            <p className="text-red-400">{projError}</p>
-          ) : githubProjects.length === 0 ? (
+          {paginatedProjects.length === 0 ? (
             <p className="text-gray-400">Aucun projet public trouvé.</p>
           ) : (
-            <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-              {githubProjects.map(p => (
-                <FloatingCard
-                  key={p.id}
-                  className="relative overflow-hidden rounded-xl border border-sky-400/15 hover:border-sky-400/35 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:ring-1 hover:ring-sky-400/25 p-8 flex flex-col h-full"
-                >
-                  <h3 className="text-lg font-semibold text-sky-400 mb-2 break-words">{p.title}</h3>
-                  <p className="text-gray-300 text-sm mb-3">{p.description}</p>
-                  {p.topics?.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {p.topics.slice(0, 6).map(t => (
-                        <span key={t} className="text-xs text-sky-300/90 bg-sky-400/10 border border-sky-400/20 rounded-md px-2 py-1">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <div className="mt-auto pt-2">
-                    <a
-                      href={p.github || 'https://github.com/'}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-sky-400/40 text-sky-300 hover:bg-sky-500/10 hover:border-sky-400/60 transition"
-                    >
-                      GitHub
-                    </a>
-                    {p.homepage && (
+            <>
+              <br />
+              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+                {paginatedProjects.map(p => (
+                  <FloatingCard
+                    key={p.id}
+                    className="relative overflow-hidden rounded-xl border border-sky-400/15 hover:border-sky-400/35 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)] hover:ring-1 hover:ring-sky-400/25 p-8 flex flex-col h-full"
+                  >
+                    <h3 className="text-lg font-semibold text-sky-400 mb-2 break-words">{p.title}</h3>
+                    <p className="text-gray-300 text-sm mb-3">{p.description}</p>
+                    {p.topics?.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {p.topics.slice(0, 6).map(t => (
+                          <span key={t} className="text-xs text-sky-300/90 bg-sky-400/10 border border-sky-400/20 rounded-md px-2 py-1">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="mt-auto pt-2">
                       <a
-                        href={p.homepage}
+                        href={p.github || 'https://github.com/'}
                         target="_blank"
                         rel="noreferrer"
-                        className="ml-3 inline-flex items-center gap-2 px-4 py-2 rounded-md border border-sky-400/40 text-sky-300 hover:bg-sky-500/10 hover:border-sky-400/60 transition"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-sky-400/40 text-sky-300 hover:bg-sky-500/10 hover:border-sky-400/60 transition"
                       >
-                        Démo
+                        GitHub
                       </a>
-                    )}
+                      {p.homepage && (
+                        <a
+                          href={p.homepage}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-3 inline-flex items-center gap-2 px-4 py-2 rounded-md border border-sky-400/40 text-sky-300 hover:bg-sky-500/10 hover:border-sky-400/60 transition"
+                        >
+                          Démo
+                        </a>
+                      )}
+                    </div>
+                  </FloatingCard>
+                ))}
+              </StaggerContainer>
+              {totalPages > 1 && (
+                <>
+                  <br />
+                  <div className="flex justify-center mt-8 gap-2">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                      <button
+                        key={i + 1}
+                        onClick={() => {
+                          setCurrentPage(i + 1);
+                          const section = document.getElementById('projects');
+                          if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }}
+                        className={`px-3 py-1 rounded-full text-sm border transition ${currentPage === i + 1 ? 'bg-sky-500/20 border-sky-400 text-sky-200' : 'border-sky-400/20 text-sky-300 hover:border-sky-400/40'}`}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
                   </div>
-                </FloatingCard>
-              ))}
-            </StaggerContainer>
+                </>
+              )}
+            </>
           )}
         </div>
       </section>
