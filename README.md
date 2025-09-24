@@ -1,12 +1,41 @@
-# React + Vite
+# Portfolio React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce projet est un portfolio moderne développé avec React, Vite et Tailwind CSS.
 
-Currently, two official plugins are available:
+## Fonctionnalités principales
+- Présentation (À propos, compétences)
+- Expériences (filtres dynamiques)
+- Projets GitHub
+- Certifications
+- Contact (email, LinkedIn, GitHub)
+- UI animée (Framer Motion)
+- Responsive design
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Prérequis
+- Node.js >= 18
+- npm >= 9
 
-## Expanding the ESLint configuration
+## Installation
+1. Clone le dépôt :
+   ```bash
+   git clone https://github.com/KxroTM/portfolio-v2.git
+   cd portfolio-v2
+   ```
+2. Installe les dépendances :
+   ```bash
+   npm install
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Lancer le projet en développement
+```bash
+npm run dev
+```
+Le site sera accessible sur http://localhost:5173
+
+## Auteur
+
+- Youssef Ammari ([KxroTM](https://github.com/KxroTM))
+
+
+---
+Portfolio - 2025
